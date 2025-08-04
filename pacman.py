@@ -23,6 +23,7 @@ player_x = 450
 player_y = 663
 direction = 0
 counter = 0
+flicker = False
 
 def draw_board():
     num1 = ((HEIGHT - 50)//32)
@@ -31,7 +32,7 @@ def draw_board():
         for j in range(len(level[i])):
             if level[i][j] == 1:
                 pygame.draw.circle(screen, 'white',(j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 4 ,)
-            elif level[i][j] == 2:
+            elif level[i][j] == 2 and not flicker:
                 pygame.draw.circle(screen, 'white', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 10, )
             elif level[i][j] == 3:
                 pygame.draw.line(screen,color,(j* num2 + (0.5 * num2), i * num1),
@@ -69,8 +70,11 @@ while run:
     timer.tick(fps)  # Control the frame rate
     if counter <19:
         counter += 1
+        if counter >3:
+            flicker = False
     else:
         counter = 0
+        flicker = True
 
     screen.fill('black')  # Clear the screen with black
     draw_board()
